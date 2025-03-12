@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FinancialController;
 use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\InsightController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -30,4 +31,7 @@ Route::middleware(['auth:api', 'retrieve.user'])->group(function () {
     Route::get('/categories', [CategoriaController::class, 'index']);
     Route::post('/categories', [CategoriaController::class, 'store']);
     Route::delete('/categories/{id}', [CategoriaController::class, 'destroy']);
+
+    //Rotas para Gerenciar Dashboard
+    Route::get('/dashboard', [InsightController::class, 'index']);
 });
