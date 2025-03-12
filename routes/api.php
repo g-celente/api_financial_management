@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FinancialController;
-use App\Http\Middleware\RetrieveUserByToken;
+use App\Http\Controllers\CategoriaController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -24,4 +24,10 @@ Route::middleware(['auth:api', 'retrieve.user'])->group(function () {
     Route::delete('/financial/{id}', [FinancialController::class, 'destroy']);
     Route::get('/financial/entradas', [FinancialController::class, 'getEntradasByUser']);
     Route::get('/financial/saidas', [FinancialController::class, 'getSaidasByUser']);
+    Route::get('/financial/{movimentacao_id}', [FinancialController::class, 'getMovimentacaoById']);
+
+    //Rotas para Gerenciar Categorias
+    Route::get('/categories', [CategoriaController::class, 'index']);
+    Route::post('/categories', [CategoriaController::class, 'store']);
+    Route::delete('/categories/{id}', [CategoriaController::class, 'destroy']);
 });

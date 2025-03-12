@@ -4,15 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Financial;
 use Illuminate\Http\Request;
+use App\Models\Categoria;
 
 class FinancialController extends Controller
 {
     public function index(Request $request) {
-
         $user_id = $request->input('authenticated_user_id');
-
-        $movimentacoes = Financial::where('user_id', $user_id)->get();
-
+    
+        $movimentacoes = Financial::where('user_id', $user_id) // Carregar a relação com a categoria
+            ->get();
+    
         return response()->json($movimentacoes);
     }
 
@@ -24,7 +25,14 @@ class FinancialController extends Controller
             'valor' => 'required|numeric|min:0.01',
             'categoria' => 'required|string|max:255',
             'descricao' => 'nullable|string',
+            'category_id' => 'required'
         ]);
+
+        $categoria = Categoria::where('id', $validatedData['category_id'])->first();
+
+        if (!$categoria) {
+            return response()->json(['error' => 'Categoria inválida.'], 400);
+        }
 
         $user_id = $request->input('authenticated_user_id');
 
@@ -33,21 +41,22 @@ class FinancialController extends Controller
                 'data' => $validatedData['data'],
                 'tipo' => $validatedData['tipo'],
                 'valor' => $validatedData['valor'],
-                'categoria' => $validatedData['categoria'],
+                'categoria' => $categoria->nome,
                 'descricao' => $validatedData['descricao'] ?? null,
                 'user_id' => $user_id,
+                'category_id' => $validatedData['category_id']
             ]);
         
             return response()->json([
                 'message' => 'Movimentação cadastrada com sucesso', 
-                'data' => $financial
+                'data' => $financial,
             ], 201);
 
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
-                'error' => $e
-            ]. 500);
+                'error' => $e->getMessage(),
+            ], 500);
         }
 
     }
@@ -69,6 +78,7 @@ class FinancialController extends Controller
             'valor' => 'sometimes|numeric|min:0.01',
             'categoria' => 'sometimes|string|max:255',
             'descricao' => 'nullable|string',
+            'category_id' => 'sometimes'
         ]);
     
         $financial->update($validatedData);
@@ -113,6 +123,14 @@ class FinancialController extends Controller
                            ->get();
     
         return response()->json($saidas);
+    }
+
+    public function getMovimentacaoById(Request $request, $id) {
+
+        $movimentacao = Financial::where('id', $id)->first();
+
+        return response()->json($movimentacao);
+
     }
     
 

@@ -5,10 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Financial extends Model
+class Categoria extends Model
 {
-
     use HasFactory;
 
-    protected $fillable = ['data', 'tipo', 'valor', 'categoria', 'descricao', 'user_id', 'category_id'];
+    protected $table = 'categories';
+
+    protected $fillable = ['nome', 'user_id'];
+
 }
