@@ -1,0 +1,118 @@
+
+# API Documentation
+
+A API está hospedada no servidor EC2 e pode ser acessada por meio da seguinte URL base:
+
+http://ec2-xx-xxx-xxx-xx.compute-1.amazonaws.com/api/
+
+## **Autenticação**
+
+- **SignUp** (Registrar um novo usuário)
+    - **Método**: `POST`
+    - **Endpoint**: `/signUp`
+    - **Parâmetros**: 
+        - `name` (string)
+        - `email` (string)
+        - `password` (string)
+    
+- **SignIn** (Entrar com um usuário)
+    - **Método**: `POST`
+    - **Endpoint**: `/signIn`
+    - **Parâmetros**:
+        - `email` (string)
+        - `password` (string)
+
+- **Logout** (Sair da conta)
+    - **Método**: `POST`
+    - **Endpoint**: `/logout`
+    - **Autenticação**: Necessário estar autenticado via token API (middleware `auth:api`)
+
+---
+
+## **Rotas Protegidas (Necessitam de Autenticação)**
+
+### **Movimentações Financeiras**
+
+- **Obter todas as movimentações financeiras**
+    - **Método**: `GET`
+    - **Endpoint**: `/financial`
+    - **Autenticação**: Requer token de autenticação via middleware `auth:api`
+    
+- **Adicionar nova movimentação financeira**
+    - **Método**: `POST`
+    - **Endpoint**: `/financial`
+    - **Autenticação**: Requer token de autenticação via middleware `auth:api`
+    - **Parâmetros**:
+        - `tipo` (string)
+        - `valor` (float)
+        - `descricao` (string)
+        - `categoria_id` (integer)
+
+- **Atualizar uma movimentação financeira existente**
+    - **Método**: `PUT`
+    - **Endpoint**: `/financial/{id}`
+    - **Autenticação**: Requer token de autenticação via middleware `auth:api`
+    - **Parâmetros**:
+        - `id` (integer)
+        - `tipo` (string)
+        - `valor` (float)
+        - `descricao` (string)
+        - `categoria_id` (integer)
+
+- **Excluir uma movimentação financeira**
+    - **Método**: `DELETE`
+    - **Endpoint**: `/financial/{id}`
+    - **Autenticação**: Requer token de autenticação via middleware `auth:api`
+    - **Parâmetros**:
+        - `id` (integer)
+
+- **Obter entradas (movimentações de receita) de um usuário**
+    - **Método**: `GET`
+    - **Endpoint**: `/financial/entradas`
+    - **Autenticação**: Requer token de autenticação via middleware `auth:api`
+
+- **Obter saídas (movimentações de despesa) de um usuário**
+    - **Método**: `GET`
+    - **Endpoint**: `/financial/saidas`
+    - **Autenticação**: Requer token de autenticação via middleware `auth:api`
+
+- **Obter uma movimentação específica por ID**
+    - **Método**: `GET`
+    - **Endpoint**: `/financial/{movimentacao_id}`
+    - **Autenticação**: Requer token de autenticação via middleware `auth:api`
+    - **Parâmetros**:
+        - `movimentacao_id` (integer)
+
+### **Categorias**
+
+- **Obter todas as categorias**
+    - **Método**: `GET`
+    - **Endpoint**: `/categories`
+    - **Autenticação**: Requer token de autenticação via middleware `auth:api`
+
+- **Adicionar nova categoria**
+    - **Método**: `POST`
+    - **Endpoint**: `/categories`
+    - **Autenticação**: Requer token de autenticação via middleware `auth:api`
+    - **Parâmetros**:
+        - `nome` (string)
+
+- **Excluir uma categoria**
+    - **Método**: `DELETE`
+    - **Endpoint**: `/categories/{id}`
+    - **Autenticação**: Requer token de autenticação via middleware `auth:api`
+    - **Parâmetros**:
+        - `id` (integer)
+
+### **Dashboard (Insights)**
+
+- **Obter informações do dashboard**
+    - **Método**: `GET`
+    - **Endpoint**: `/dashboard`
+    - **Autenticação**: Requer token de autenticação via middleware `auth:api`
+    
+---
+
+## **Exemplo de Requisição**
+
+### **Registrar um novo usuário**
