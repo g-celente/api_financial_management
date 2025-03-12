@@ -55,12 +55,16 @@ DB_PASSWORD=senha</code></pre>
 <p>Execute as migrations para criar as tabelas no banco de dados:</p>
 <pre><code>php artisan migrate</code></pre>
 
-<h3>Passo 7: Rodar o Servidor Local</h3>
+<h3>Passo 7: Gerar a JWT Key</h3>
+<p>Gere a chave para poder acessar o JWT Key</p>
+<pre><code>php artisan jwt:generate</code></pre>
+
+<h3>Passo 8: Rodar o Servidor Local</h3>
 <p>Agora você pode rodar o servidor de desenvolvimento local do Laravel:</p>
 <pre><code>php artisan serve</code></pre>
 <p>O servidor será iniciado e estará acessível em <code>http://127.0.0.1:8000</code>.</p>
 
-<h3>Passo 8: Acessar a Aplicação</h3>
+<h3>Passo 9: Acessar a Aplicação</h3>
 <p>Abra o navegador e acesse a aplicação em <code>http://127.0.0.1:8000</code> para começar a usar o projeto.</p>
 
 <h2>Contribuindo</h2>
